@@ -12,11 +12,12 @@
 2. [Core Innovation](#-core-innovation-data-center-incast)
 3. [Hypotheses](#-hypotheses)
 4. [Project Structure](#-project-structure)
-5. [Prerequisites](#-prerequisites)
-6. [How to Run](#-how-to-run)
-7. [Experiments](#-experiments)
-8. [Results Summary](#-results-summary)
-9. [Documentation Files](#-documentation-files)
+5. [Installing NS-3](#-installing-ns-3-v335)
+6. [Prerequisites](#-prerequisites)
+7. [How to Run](#-how-to-run)
+8. [Experiments](#-experiments)
+9. [Results Summary](#-results-summary)
+10. [Documentation Files](#-documentation-files)
 
 ---
 
@@ -101,10 +102,132 @@ computernetworks_research/
 
 ---
 
+## 🛠️ Installing NS-3 v3.35
+
+> This project uses **NS-3 version 3.35** with Python bindings. Follow the steps below to install it from scratch if you do not already have it built.
+
+### Step 1 — Install System Dependencies
+
+#### Ubuntu / Debian / WSL
+```bash
+sudo apt update && sudo apt install -y \
+  gcc g++ python3 python3-dev python3-pip \
+  cmake ninja-build git \
+  libgsl-dev libsqlite3-dev \
+  qt5-qmake qtbase5-dev \
+  tcpdump wireshark-dev \
+  mercurial cvs bzr \
+  gdb valgrind \
+  libxml2 libxml2-dev \
+  libgtk-3-dev \
+  python3-pygraphviz python3-gi python3-gi-cairo \
+  gir1.2-gtk-3.0
+```
+
+#### macOS (via Homebrew)
+```bash
+brew install gcc cmake ninja gsl sqlite3 libxml2
+brew install python@3.10
+```
+
+---
+
+### Step 2 — Download NS-3 v3.35
+
+Download the official all-in-one package from the NS-3 website:
+```bash
+wget https://www.nsnam.org/releases/ns-allinone-3.35.tar.bz2
+tar -xjf ns-allinone-3.35.tar.bz2
+cd ns-allinone-3.35
+```
+
+Or clone directly from the GitLab mirror:
+```bash
+git clone https://gitlab.com/nsnam/ns-3-allinone.git ns-allinone-3.35
+cd ns-allinone-3.35
+git checkout -b ns-3.35 ns-3.35
+```
+
+---
+
+### Step 3 — Build NS-3 with Python Bindings
+
+Run the all-in-one build script, which automatically builds NS-3 and its Python bindings:
+```bash
+cd ns-allinone-3.35
+./build.py --enable-examples --enable-tests 2>&1 | tee build.log
+```
+
+> ⏱️ **Build time:** ~10–25 minutes depending on your CPU. The `--enable-examples` flag is optional but recommended to verify the build.
+
+Alternatively, if you prefer the CMake-based build (NS-3.36+) or want fine-grained control, use `waf` directly inside the `ns-3.35` folder:
+```bash
+cd ns-allinone-3.35/ns-3.35
+./waf configure --enable-python-bindings --enable-examples
+./waf build
+```
+
+---
+
+### Step 4 — Enable Python Bindings
+
+After the build, add the NS-3 Python path to your environment so Python can find the `ns` module:
+```bash
+# Add to your ~/.bashrc or ~/.zshrc
+export PYTHONPATH=$PYTHONPATH:/path/to/ns-allinone-3.35/ns-3.35/build/bindings/python
+```
+
+Apply immediately:
+```bash
+source ~/.bashrc   # or: source ~/.zshrc
+```
+
+---
+
+### Step 5 — Verify the Installation
+
+Run a quick sanity check from inside the `ns-3.35` directory:
+```bash
+cd ns-allinone-3.35/ns-3.35
+
+# Check Python bindings are loadable
+python3 -c "import ns.core; print('NS-3 Python bindings OK')"
+
+# Run the built-in test suite (optional but recommended)
+./test.py -s tcp-general
+```
+
+Expected output:
+```
+NS-3 Python bindings OK
+PASS: TestSuite tcp-general
+```
+
+Also verify the bindings folder contains compiled `.so` files:
+```bash
+ls build/bindings/python/ns/
+# Expected: applications.cpython-*.so, core.cpython-*.so, internet.cpython-*.so ...
+```
+
+---
+
+### 🔧 Common Installation Issues
+
+| Issue | Fix |
+|---|---|
+| `No module named 'ns'` | Set `PYTHONPATH` (Step 4) and re-run from inside `ns-3.35/` |
+| `waf: command not found` | Use `./waf` (note the `./`) |
+| Build fails on macOS with `clang` | Install `gcc` via Homebrew and set `CC=gcc-12 CXX=g++-12 ./waf configure` |
+| `libgsl not found` | Run `sudo apt install libgsl-dev` or `brew install gsl` |
+| `python3-dev not found` | Run `sudo apt install python3.X-dev` matching your Python version |
+| Slow build | Use `./waf build -j$(nproc)` to parallelize across all CPU cores |
+
+---
+
 ## ⚙️ Prerequisites
 
 ### 1. NS-3 v3.35 (with Python bindings)
-NS-3 is included in the `ns-allinone-3.35/` folder and must already be built. Verify with:
+NS-3 must be built (see [Installing NS-3](#-installing-ns-3-v335) above). Verify with:
 ```bash
 ls ns-allinone-3.35/ns-3.35/build/bindings/python/ns/
 # Should show: applications.cpython-*.so, core.py, etc.
