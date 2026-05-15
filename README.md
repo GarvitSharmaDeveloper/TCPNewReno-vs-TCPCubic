@@ -11,10 +11,10 @@
 1. [Project Overview](#-project-overview)
 2. [Core Innovation](#-core-innovation-data-center-incast)
 3. [Hypotheses](#-hypotheses)
-4. [Project Structure](#-project-structure)
-5. [Installing NS-3](#-installing-ns-3-v335)
-6. [Prerequisites](#-prerequisites)
-7. [How to Run](#-how-to-run)
+4. [How to Run](#-how-to-run)
+5. [Project Structure](#-project-structure)
+6. [Installing NS-3](#-installing-ns-3-v335)
+7. [Prerequisites](#-prerequisites)
 8. [Experiments](#-experiments)
 9. [Results Summary](#-results-summary)
 
@@ -58,6 +58,24 @@ When all 20 senders burst simultaneously at `t=1.0s`, the router buffer overflow
 | **H3** | Two competing Cubic flows share bandwidth fairly (Jain's Index ≈ 1.0) |
 | **H4** | Cubic exploits High-BDP links more efficiently than Reno |
 | **H5** | Cubic recovers faster from synchronized Data Center Incast crashes |
+
+---
+
+## ▶️ How to Run
+
+> ⚠️ **Important:** All NS-3 simulations MUST be run from inside the `ns-3.35` directory so the Python bindings are found correctly.
+
+### Quick Start — Run All Experiments
+```bash
+cd /path/to/computernetworks_research/ns-allinone-3.35/ns-3.35
+python3 ../../run_experiments.py
+```
+
+### Generate All Charts
+```bash
+cd /path/to/computernetworks_research
+python3 generate_all_graphics.py
+```
 
 ---
 
@@ -235,24 +253,6 @@ pip install matplotlib networkx
 ### 3. Python Version
 ```bash
 python3 --version   # Requires Python 3.8+
-```
-
----
-
-## ▶️ How to Run
-
-> ⚠️ **Important:** All NS-3 simulations MUST be run from inside the `ns-3.35` directory so the Python bindings are found correctly.
-
-### Quick Start — Run All Experiments
-```bash
-cd /path/to/computernetworks_research/ns-allinone-3.35/ns-3.35
-python3 ../../run_experiments.py
-```
-
-### Generate All Charts
-```bash
-cd /path/to/computernetworks_research
-python3 generate_all_graphics.py
 ```
 
 ---
