@@ -1,6 +1,6 @@
 # 📡 Performance Benchmarking of TCP Reno vs. TCP Cubic
 
-> **CS258 — Computer Networks Final Project**  
+> **CS258 — Computer Communication Final Project**  
 > **Team:** Garvit Sharma & Yukta Vajpayee  
 > **Instructor:** Prof. Navrati Saxena  
 > **Simulator:** NS-3 v3.35
