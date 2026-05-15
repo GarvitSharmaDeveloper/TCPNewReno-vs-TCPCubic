@@ -1,0 +1,3 @@
+Protocol,Throughput_Mbps
+TcpNewReno,44.87
+TcpCubic,44.34
