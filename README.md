@@ -17,7 +17,6 @@
 7. [How to Run](#-how-to-run)
 8. [Experiments](#-experiments)
 9. [Results Summary](#-results-summary)
-10. [Documentation Files](#-documentation-files)
 
 ---
 
@@ -67,14 +66,14 @@ When all 20 senders burst simultaneously at `t=1.0s`, the router buffer overflow
 ```
 computernetworks_research/
 │
-├── 📂 ns-allinone-3.35/ns-3.35/    # NS-3 simulator (pre-built)
+├── 📂 ns-allinone-3.35/ns-3.35/    # NS-3 simulator (must be built locally)
 │
 ├── 🔧 SIMULATION SCRIPTS
 │   ├── simulation.py               # Core NS-3 engine (P2P + Star topology)
 │   ├── run_experiments.py          # Orchestrator — runs all 5 experiments
 │   ├── generate_all_graphics.py    # Generates all result charts (PNG)
-│   ├── generate_presentation.py    # Auto-builds PowerPoint deck
-│   └── generate_topology_diagram.py # Draws the Star Topology diagram
+│   ├── generate_topology_diagram.py # Draws the Star Topology diagram
+│   └── plot_results.py             # Extra plotting utilities
 │
 ├── 📊 RESULTS DATA
 │   ├── exp1_throughput.csv         # Throughput vs loss rate results
@@ -82,22 +81,17 @@ computernetworks_research/
 │   ├── exp4_highbdp.csv            # High-BDP utilization results
 │   └── exp5_incast.csv             # Incast aggregate throughput
 │
-├── 🖼️ GENERATED CHARTS (after running)
+├── 🖼️ GENERATED CHARTS
 │   ├── throughput_comparison.png   # Exp 1 — Line graph
 │   ├── cwnd_recovery.png           # Exp 2 — CWND over time
 │   ├── fairness.png                # Exp 3 — Jain's Index
 │   ├── highbdp_comparison.png      # Exp 4 — Bar chart
 │   ├── incast_collapse.png         # Exp 5 — Time-series crash
-│   └── network_topology.png        # Star topology diagram
+│   ├── network_topology.png        # Star topology diagram
+│   ├── project_flow_diagram.png    # Pipeline diagram
+│   └── data_flow_diagram.png       # DFD diagram
 │
-└── 📚 DOCUMENTATION
-    ├── README.md                   # This file
-    ├── PROJECT_DOCUMENTATION.md    # Full technical documentation
-    ├── RESULTS_EXPLAINED.md        # Plain-English results explanation
-    ├── TECHNICAL_GLOSSARY.md       # All terminology explained
-    ├── CODE_WALKTHROUGH.md         # How the code pipeline works
-    ├── PROFESSOR_QA_CHEAT_SHEET.md # Likely viva/defense questions
-    └── PRESENTER_SPEECH.md         # 10-minute timed presentation script
+└── README.md                       # This file
 ```
 
 ---
@@ -235,7 +229,7 @@ ls ns-allinone-3.35/ns-3.35/build/bindings/python/ns/
 
 ### 2. Python Dependencies
 ```bash
-pip install matplotlib python-docx python-pptx networkx
+pip install matplotlib networkx
 ```
 
 ### 3. Python Version
@@ -259,11 +253,6 @@ python3 ../../run_experiments.py
 ```bash
 cd /path/to/computernetworks_research
 python3 generate_all_graphics.py
-```
-
-### Generate PowerPoint Presentation
-```bash
-python3 generate_presentation.py
 ```
 
 ---
@@ -362,17 +351,6 @@ python3 ../../simulation.py \
 > **Key Finding:** TCP Cubic is decisively superior in high-speed, high-loss, and high-delay network environments. Its β=0.7 window reduction and cubic polynomial recovery directly address the fundamental limitations of Reno's conservative AIMD strategy.
 
 ---
-
-## 📚 Documentation Files
-
-| File | Purpose |
-|---|---|
-| `PROJECT_DOCUMENTATION.md` | Full technical and architectural overview |
-| `RESULTS_EXPLAINED.md` | Each experiment explained + code used |
-| `TECHNICAL_GLOSSARY.md` | 25 key terms defined with project context |
-| `CODE_WALKTHROUGH.md` | How the automation pipeline works end-to-end |
-| `PROFESSOR_QA_CHEAT_SHEET.md` | 30+ likely viva questions with model answers |
-| `PRESENTER_SPEECH.md` | Timed 10-minute presentation script |
 
 ---
 
